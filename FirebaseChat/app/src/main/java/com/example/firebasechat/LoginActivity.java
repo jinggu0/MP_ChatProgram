@@ -63,9 +63,10 @@ public class LoginActivity extends AppCompatActivity {
                 mAuth.signInWithEmailAndPassword(email, pw).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, email + "님 로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-                            Intent mIntent = new Intent(LoginActivity.this, ChatActivity.class);
+                            Intent mIntent = new Intent(LoginActivity.this, ChannelActivity.class);
                             startActivity(mIntent);
                         }
                         else {

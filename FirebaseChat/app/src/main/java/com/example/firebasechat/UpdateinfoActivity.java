@@ -9,7 +9,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,7 +24,7 @@ public class UpdateinfoActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference mRef;
     EditText etEmail, etPassword, etName, etNick;
-    Button btnUpdate, btnBack;
+    Button btnUpdate, btnBack, btnDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class UpdateinfoActivity extends AppCompatActivity {
         etNick = findViewById(R.id.etUpdateNick);
         btnUpdate = findViewById(R.id.btnUpdate);
         btnBack = findViewById(R.id.btnUpdateBack);
+        btnDelete = findViewById(R.id.btnDelete);
 
         if (mAuth.getCurrentUser() != null) {
             mRef.child("UserAccount").child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
@@ -45,10 +49,12 @@ public class UpdateinfoActivity extends AppCompatActivity {
 
                     UserAccount user = snapshot.getValue(UserAccount.class);
 
-                    etEmail.setText(user.getEmailId());
-                    etPassword.setText(user.getPassword());
-                    etName.setText(user.getUserName());
-                    etNick.setText(user.getNickName());
+                    if (user != null) {
+                        etEmail.setText(user.getEmailId());
+                        etPassword.setText(user.getPassword());
+                        etName.setText(user.getUserName());
+                        etNick.setText(user.getNickName());
+                    }
                 }
 
                 @Override
@@ -73,6 +79,38 @@ public class UpdateinfoActivity extends AppCompatActivity {
                 mRef.child("UserAccount").child(mAuth.getUid()).setValue(user);
 
                 Toast.makeText(UpdateinfoActivity.this, "정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FirebaseUser user = mAuth.getCurrentUser();
+
+                if (user == null) {
+                    Toast.makeText(UpdateinfoActivity.this, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String uid = mAuth.getUid();
+
+                mRef.child("UserAccount").child(uid).removeValue();
+
+                user.delete().addOnCompleteListener(UpdateinfoActivity.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if (task.isSuccessful()) {
+                            Toast.makeText(UpdateinfoActivity.this, "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                            mAuth.signOut();
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(UpdateinfoActivity.this, "회원 탈퇴에 실패했습니다. 다시 로그인 후 시도하세요.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 

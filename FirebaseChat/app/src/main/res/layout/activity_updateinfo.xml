@@ -85,4 +85,14 @@
         app:layout_constraintTop_toBottomOf="@+id/etUpdateNick"
         app:layout_constraintVertical_bias="0.138" />
 
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="탈퇴"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUpdateNick" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
