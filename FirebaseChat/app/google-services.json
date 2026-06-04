@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "432470879958",
+    "project_id": "firechat-ff12",
+    "storage_bucket": "firechat-ff12.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432470879958:android:aa61e7c9a74505a4b92377",
+        "android_client_info": {
+          "package_name": "com.example.firebasechat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD41sojJKfgOUdXGOJb3YP_eTpOfObYCnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
